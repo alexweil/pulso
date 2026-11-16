@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conexión con Meta · PULSO</title>
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/pulso/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/pulso/estilo.css">
+</head>
+<body>
+<main class="doc">
+  <div class="wrap">
+    <p class="kicker">Conexión con Meta</p>
+    <div id="sin">
+      <h1>Acá no hay nada para ver</h1>
+      <p>Por esta página pasa quien administra PULSO cuando autoriza al canal a publicar en Facebook e Instagram. No guarda ni envía ningún dato.</p>
+      <p>Volvé al <a href="/pulso/">inicio de PULSO</a>.</p>
+    </div>
+    <div id="con" hidden>
+      <h1>Volviendo a la terminal</h1>
+      <p>Meta ya respondió. Esta página le pasa la respuesta al comando que quedó esperando en tu computadora.</p>
+      <p><a id="volver" href="/pulso/">Si no cambia sola en unos segundos, tocá acá</a>.</p>
+      <p class="note">Si el navegador dice que no se puede conectar, el comando ya no está esperando: volvé a correr <code>meta conectar</code>.</p>
+    </div>
+  </div>
+</main>
+<script>
+// La vuelta del diálogo de Meta. Con la app publicada, Meta solo vuelve a una dirección https cargada en la app; esta
+// página le pasa lo que trae (el código de un solo uso, o el error) al comando `meta conectar`, que escucha en la
+// computadora de quien lo corrió. El destino es fijo: nada de lo que llega en la dirección lo cambia.
+(function () {
+  var datos = new URLSearchParams(location.search);
+  if (!datos.has("code") && !datos.has("error")) return;
+  var destino = "http://localhost:4330/callback" + location.search;
+  document.getElementById("volver").href = destino;
+  document.getElementById("sin").hidden = true;
+  document.getElementById("con").hidden = false;
+  location.replace(destino);
+})();
+</script>
+</body>
+</html>
